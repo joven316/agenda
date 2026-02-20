@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  agenda:
+    build: .
+    container_name: agenda-app
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./data:/app/data
+    restart: unless-stopped
+    environment:
+      - DATABASE_URL=/app/data/agenda.db
+      - UPLOAD_DIR=/app/data/uploads
