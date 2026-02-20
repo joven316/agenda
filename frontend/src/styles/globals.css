@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-background text-text font-sans antialiased;
+  }
+
+  * {
+    @apply box-border;
+  }
+}
+
+@layer components {
+  .row-number {
+    @apply font-serif text-3xl font-bold text-accent;
+  }
+
+  .btn-primary {
+    @apply bg-accent hover:bg-accent-hover text-white px-4 py-2 rounded transition-colors;
+  }
+
+  .btn-secondary {
+    @apply bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded transition-colors;
+  }
+
+  .task-row {
+    @apply flex items-center gap-4 py-3 px-4 border-b border-gray-700 hover:bg-gray-800 transition-colors cursor-pointer;
+  }
+
+  .task-row-completed {
+    @apply opacity-60;
+  }
+}
