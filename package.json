@@ -1,0 +1,12 @@
+{
+  "name": "agenda",
+  "private": true,
+  "scripts": {
+    "start": "concurrently --kill-others-on-fail --names \"api,ui\" --prefix-colors \"blue,green\" \"npm run start:api\" \"npm run start:ui\"",
+    "start:api": "cd backend && uvicorn main:app --reload --port 8023",
+    "start:ui": "cd frontend && npm run dev"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
