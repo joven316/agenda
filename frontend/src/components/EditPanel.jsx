@@ -43,7 +43,7 @@ export default function EditPanel() {
       setDueDate(defaultDate)
       setNoDate(!defaultDate)
     }
-  }, [task, mode, defaultDate])
+  }, [task, mode, defaultDate, isOpen])
 
   // Auto-save for existing tasks (debounced)
   useEffect(() => {
