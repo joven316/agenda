@@ -6,14 +6,23 @@ __pycache__/
 .Python
 env/
 venv/
+.venv/
 *.egg-info/
 dist/
 build/
+.pytest_cache/
+.coverage
+htmlcov/
+*.log
 
 # Node
 node_modules/
 dist/
 .vite/
+
+# Environment variables
+.env
+.env.*
 
 # Data
 data/

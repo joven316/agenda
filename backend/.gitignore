@@ -2,3 +2,9 @@ __pycache__/
 *.pyc
 *.db
 uploads/
+.pytest_cache/
+.coverage
+htmlcov/
+*.log
+.env
+.env.*
