@@ -26,7 +26,7 @@
   }
 
   .task-row {
-    @apply flex items-center gap-2 py-3 px-2 border-b border-gray-700 hover:bg-gray-800 transition-colors cursor-pointer;
+    @apply flex items-baseline gap-2 py-3 px-2 border-b border-gray-700 hover:bg-gray-800 transition-colors cursor-pointer;
   }
 
   .task-row-completed {

@@ -64,7 +64,7 @@ export default function ListView() {
               {String(index + 1).padStart(2, '0')}
             </span>
 
-            <span className={`flex-1 ${task.completed ? 'line-through' : ''}`}>
+            <span className={`flex-1 text-xl ${task.completed ? 'line-through' : ''}`}>
               {task.title}
             </span>
 
