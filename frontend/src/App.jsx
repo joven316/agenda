@@ -3,6 +3,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { AppProvider, useAppContext } from './context/AppContext'
 import NavTabs from './components/NavTabs'
 import AgendaView from './components/AgendaView'
+import CalendarView from './components/CalendarView'
+import ListView from './components/ListView'
 import EditPanel from './components/EditPanel'
 
 const queryClient = new QueryClient({
@@ -24,8 +26,8 @@ function AppContent() {
       <NavTabs />
 
       {currentView === 'agenda' && <AgendaView />}
-      {currentView === 'calendar' && <div className="text-gray-400">Calendar view coming soon...</div>}
-      {currentView === 'list' && <div className="text-gray-400">List view coming soon...</div>}
+      {currentView === 'calendar' && <CalendarView />}
+      {currentView === 'list' && <ListView />}
 
       <EditPanel />
     </div>
