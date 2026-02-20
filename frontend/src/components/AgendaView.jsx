@@ -51,7 +51,7 @@ function TaskRow({ task, index, onToggleComplete, onEdit, onRemove }) {
       <div
         {...attributes}
         {...listeners}
-        className="cursor-grab active:cursor-grabbing p-2"
+        className="cursor-grab active:cursor-grabbing"
       >
         <GripVertical className="w-4 h-4 text-gray-600" />
       </div>
@@ -67,9 +67,9 @@ function TaskRow({ task, index, onToggleComplete, onEdit, onRemove }) {
       {!task.completed && (
         <button
           onClick={(e) => { e.stopPropagation(); onEdit(task) }}
-          className="opacity-0 group-hover:opacity-100 transition-opacity flex items-center px-2.5 py-1.5 rounded hover:bg-gray-700 text-gray-400 hover:text-accent"
+          className="group/modify opacity-0 group-hover:opacity-100 transition-opacity flex items-center px-2.5 py-1.5 rounded hover:bg-gray-700 text-gray-400"
         >
-          <Pencil className="w-3.5 h-3.5" />
+          <Pencil className="w-3.5 h-3.5 group-hover/modify:text-accent" />
           <span className="ml-1.5 text-xs">modify</span>
         </button>
       )}
