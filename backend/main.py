@@ -59,6 +59,13 @@ def create_task(task: schemas.TaskCreate, db: Session = Depends(get_db)):
     return crud.create_task(db, task)
 
 
+@app.put("/api/tasks/reorder", status_code=200)
+def reorder_tasks(reorder: schemas.TaskReorder, db: Session = Depends(get_db)):
+    """Bulk update sort_order for drag-and-drop"""
+    crud.reorder_tasks(db, reorder)
+    return {"message": "Tasks reordered successfully"}
+
+
 @app.put("/api/tasks/{task_id}", response_model=schemas.Task)
 def update_task(
     task_id: int,
@@ -73,7 +80,7 @@ def update_task(
 
 
 @app.delete("/api/tasks/{task_id}", status_code=204)
-def delete_task(task_id: int, db: Session = Depends(get_db)):
+async def delete_task(task_id: int, db: Session = Depends(get_db)):
     """Delete a task and its attachments"""
     # Get attachments for file cleanup
     attachments = crud.get_attachments(db, task_id)
@@ -86,13 +93,6 @@ def delete_task(task_id: int, db: Session = Depends(get_db)):
     # Clean up files
     for attachment in attachments:
         await delete_file(attachment.stored_path)
-
-
-@app.put("/api/tasks/reorder", status_code=200)
-def reorder_tasks(reorder: schemas.TaskReorder, db: Session = Depends(get_db)):
-    """Bulk update sort_order for drag-and-drop"""
-    crud.reorder_tasks(db, reorder)
-    return {"message": "Tasks reordered successfully"}
 
 
 # Attachment Endpoints

@@ -10,8 +10,8 @@ function WeeklyCalendar() {
   const { currentWeekStart, setCurrentWeekStart, openEditPanel } = useAppContext()
 
   const weekDays = eachDayOfInterval({
-    start: startOfWeek(currentWeekStart, { weekStartsOn: 1 }),
-    end: endOfWeek(currentWeekStart, { weekStartsOn: 1 }),
+    start: startOfWeek(currentWeekStart, { weekStartsOn: 0 }),
+    end: endOfWeek(currentWeekStart, { weekStartsOn: 0 }),
   })
 
   const getTasksForDay = (day) => {
@@ -92,12 +92,12 @@ function MonthlyCalendar() {
 
   const monthStart = startOfMonth(currentMonth)
   const monthEnd = endOfMonth(currentMonth)
-  const calendarStart = startOfWeek(monthStart, { weekStartsOn: 1 })
-  const calendarEnd = endOfWeek(monthEnd, { weekStartsOn: 1 })
+  const calendarStart = startOfWeek(monthStart, { weekStartsOn: 0 })
+  const calendarEnd = endOfWeek(monthEnd, { weekStartsOn: 0 })
 
   const weeks = eachWeekOfInterval(
     { start: calendarStart, end: calendarEnd },
-    { weekStartsOn: 1 }
+    { weekStartsOn: 0 }
   )
 
   const getTasksForDay = (day) => {
@@ -129,7 +129,7 @@ function MonthlyCalendar() {
 
       {/* Day Headers */}
       <div className="grid grid-cols-7 gap-1 mb-1">
-        {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day) => (
+        {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
           <div key={day} className="text-center text-sm text-gray-500 font-medium py-2">
             {day}
           </div>
@@ -141,7 +141,7 @@ function MonthlyCalendar() {
         {weeks.map((week) =>
           eachDayOfInterval({
             start: week,
-            end: endOfWeek(week, { weekStartsOn: 1 }),
+            end: endOfWeek(week, { weekStartsOn: 0 }),
           }).map((day) => {
             const dayTasks = getTasksForDay(day)
             const isCurrentMonth = isSameMonth(day, currentMonth)

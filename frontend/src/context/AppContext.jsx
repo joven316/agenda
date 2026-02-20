@@ -7,11 +7,10 @@ export function AppProvider({ children }) {
   const [calendarSubView, setCalendarSubView] = useState('week')
   const [currentWeekStart, setCurrentWeekStart] = useState(() => {
     const today = new Date()
-    const day = today.getDay()
-    const diff = day === 0 ? -6 : 1 - day // Monday as week start
-    const monday = new Date(today)
-    monday.setDate(today.getDate() + diff)
-    return monday
+    const day = today.getDay() // 0 = Sunday
+    const sunday = new Date(today)
+    sunday.setDate(today.getDate() - day) // Sunday as week start
+    return sunday
   })
   const [currentMonth, setCurrentMonth] = useState(new Date())
   const [editPanelState, setEditPanelState] = useState({

@@ -16,11 +16,11 @@ import {
   useSortable,
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import { GripVertical } from 'lucide-react'
+import { GripVertical, Pencil, Trash2 } from 'lucide-react'
 import { useTasks } from '../hooks/useTasks'
 import { useAppContext } from '../context/AppContext'
 
-function TaskRow({ task, index, onToggleComplete, onDoubleClick }) {
+function TaskRow({ task, index, onToggleComplete, onEdit, onRemove }) {
   const {
     attributes,
     listeners,
@@ -45,9 +45,8 @@ function TaskRow({ task, index, onToggleComplete, onDoubleClick }) {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, height: 0 }}
       transition={{ duration: 0.2 }}
-      className={`task-row ${task.completed ? 'task-row-completed' : ''}`}
+      className={`task-row group ${task.completed ? 'task-row-completed' : ''}`}
       onClick={() => onToggleComplete(task)}
-      onDoubleClick={() => onDoubleClick(task)}
     >
       <div
         {...attributes}
@@ -65,25 +64,31 @@ function TaskRow({ task, index, onToggleComplete, onDoubleClick }) {
         {task.title}
       </span>
 
-      {task.completed && (
-        <motion.button
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          onClick={(e) => {
-            e.stopPropagation()
-            // Will be handled by parent
-          }}
-          className="btn-secondary text-sm px-3 py-1"
+      {!task.completed && (
+        <button
+          onClick={(e) => { e.stopPropagation(); onEdit(task) }}
+          className="opacity-0 group-hover:opacity-100 transition-opacity flex items-center px-2.5 py-1.5 rounded hover:bg-gray-700 text-gray-400 hover:text-accent"
         >
-          remove
-        </motion.button>
+          <Pencil className="w-3.5 h-3.5" />
+          <span className="ml-1.5 text-xs">modify</span>
+        </button>
+      )}
+
+      {task.completed && (
+        <button
+          onClick={(e) => { e.stopPropagation(); onRemove(task) }}
+          className="opacity-0 group-hover:opacity-100 transition-opacity flex items-center px-2.5 py-1.5 rounded hover:bg-gray-700 text-gray-400 hover:text-red-400"
+        >
+          <Trash2 className="w-3.5 h-3.5" />
+          <span className="ml-1.5 text-xs">remove</span>
+        </button>
       )}
     </motion.div>
   )
 }
 
 export default function AgendaView() {
-  const { tasks, isLoading, updateTask, reorderTasks } = useTasks('agenda')
+  const { tasks, isLoading, updateTask, deleteTask, reorderTasks } = useTasks('agenda')
   const { openEditPanel } = useAppContext()
 
   const sensors = useSensors(
@@ -122,8 +127,12 @@ export default function AgendaView() {
     })
   }
 
-  const handleDoubleClick = (task) => {
+  const handleEdit = (task) => {
     openEditPanel(task.id)
+  }
+
+  const handleRemove = (task) => {
+    deleteTask(task.id)
   }
 
   if (isLoading) {
@@ -148,19 +157,14 @@ export default function AgendaView() {
                 task={task}
                 index={index}
                 onToggleComplete={handleToggleComplete}
-                onDoubleClick={handleDoubleClick}
+                onEdit={handleEdit}
+                onRemove={handleRemove}
               />
             ))}
           </AnimatePresence>
         </SortableContext>
       </DndContext>
 
-      <button
-        onClick={() => openEditPanel(null, null)}
-        className="btn-primary mt-4"
-      >
-        + add row
-      </button>
     </div>
   )
 }
