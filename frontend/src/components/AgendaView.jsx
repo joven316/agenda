@@ -16,11 +16,11 @@ import {
   useSortable,
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import { GripVertical, Pencil, Trash2 } from 'lucide-react'
+import { GripVertical, Pencil, Trash2, ChevronsUp } from 'lucide-react'
 import { useTasks } from '../hooks/useTasks'
 import { useAppContext } from '../context/AppContext'
 
-function TaskRow({ task, index, onToggleComplete, onEdit, onRemove }) {
+function TaskRow({ task, index, onToggleComplete, onEdit, onRemove, onMoveToTop }) {
   const {
     attributes,
     listeners,
@@ -63,6 +63,16 @@ function TaskRow({ task, index, onToggleComplete, onEdit, onRemove }) {
       <span className={`flex-1 text-xl ${task.completed ? 'line-through' : ''}`}>
         {task.title}
       </span>
+
+      {!task.completed && index > 0 && (
+        <button
+          onClick={(e) => { e.stopPropagation(); onMoveToTop(task) }}
+          className="group/top opacity-0 group-hover:opacity-100 transition-opacity flex items-center px-2.5 py-1.5 rounded hover:bg-gray-700 text-gray-400"
+        >
+          <ChevronsUp className="w-3.5 h-3.5 group-hover/top:text-accent" />
+          <span className="ml-1.5 text-xs">move to top</span>
+        </button>
+      )}
 
       {!task.completed && (
         <button
@@ -135,6 +145,12 @@ export default function AgendaView() {
     deleteTask(task.id)
   }
 
+  const handleMoveToTop = (task) => {
+    const reordered = [task, ...activeTasks.filter((t) => t.id !== task.id)]
+    const reorderPayload = reordered.map((t, idx) => ({ id: t.id, sort_order: idx }))
+    reorderTasks(reorderPayload)
+  }
+
   if (isLoading) {
     return <div className="text-gray-400">Loading...</div>
   }
@@ -159,6 +175,7 @@ export default function AgendaView() {
                 onToggleComplete={handleToggleComplete}
                 onEdit={handleEdit}
                 onRemove={handleRemove}
+                onMoveToTop={handleMoveToTop}
               />
             ))}
           </AnimatePresence>
