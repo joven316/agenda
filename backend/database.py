@@ -33,8 +33,11 @@ def migrate_add_is_note():
                 "ALTER TABLE tasks ADD COLUMN is_note BOOLEAN NOT NULL DEFAULT 0"
             ))
             conn.commit()
-        except Exception:
-            pass  # Column already exists — ignore
+        except Exception as e:
+            if "duplicate column name" in str(e).lower() or "already exists" in str(e).lower():
+                pass  # Column already exists — expected on re-run or fresh DB
+            else:
+                raise
 
 
 def init_db():
