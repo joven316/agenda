@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 import os
@@ -25,6 +25,19 @@ def get_db():
         db.close()
 
 
+def migrate_add_is_note():
+    """Add is_note column to existing databases. Safe to run repeatedly."""
+    with engine.connect() as conn:
+        try:
+            conn.execute(text(
+                "ALTER TABLE tasks ADD COLUMN is_note BOOLEAN NOT NULL DEFAULT 0"
+            ))
+            conn.commit()
+        except Exception:
+            pass  # Column already exists — ignore
+
+
 def init_db():
     """Initialize database tables"""
     Base.metadata.create_all(bind=engine)
+    migrate_add_is_note()

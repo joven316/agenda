@@ -13,6 +13,7 @@ class Task(Base):
     due_date = Column(Date, nullable=True, index=True)  # null = "No Date"
     completed = Column(Boolean, default=False, nullable=False)
     sort_order = Column(Integer, nullable=False, default=0, index=True)
+    is_note = Column(Boolean, default=False, nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
 
