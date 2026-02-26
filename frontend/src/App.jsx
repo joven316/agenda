@@ -28,6 +28,7 @@ function AppContent() {
       {currentView === 'agenda' && <AgendaView />}
       {currentView === 'calendar' && <CalendarView />}
       {currentView === 'list' && <ListView />}
+      {currentView === 'notes' && <AgendaView view="notes" />}
 
       <EditPanel />
     </div>
