@@ -9,13 +9,14 @@ import FileAttachments from './FileAttachments'
 
 export default function EditPanel() {
   const { editPanelState, closeEditPanel } = useAppContext()
-  const { isOpen, taskId, mode, defaultDate } = editPanelState
+  const { isOpen, taskId, mode, defaultDate, defaultIsNote } = editPanelState
   const queryClient = useQueryClient()
 
   const [title, setTitle] = useState('')
   const [notes, setNotes] = useState('')
   const [dueDate, setDueDate] = useState(defaultDate)
   const [noDate, setNoDate] = useState(!defaultDate)
+  const [isNote, setIsNote] = useState(false)
 
   // Fetch task if editing
   const { data: task } = useQuery({
@@ -37,13 +38,15 @@ export default function EditPanel() {
       setNotes(task.notes || '')
       setDueDate(task.due_date ? new Date(task.due_date) : null)
       setNoDate(!task.due_date)
+      setIsNote(task.is_note || false)
     } else if (mode === 'new') {
       setTitle('')
       setNotes('')
       setDueDate(defaultDate)
       setNoDate(!defaultDate)
+      setIsNote(defaultIsNote || false)
     }
-  }, [task, mode, defaultDate, isOpen])
+  }, [task, mode, defaultDate, defaultIsNote, isOpen])
 
   // Auto-save for existing tasks (debounced)
   useEffect(() => {
@@ -53,6 +56,7 @@ export default function EditPanel() {
           title: title || 'Untitled',
           notes,
           due_date: noDate ? null : dueDate?.toISOString().split('T')[0],
+          is_note: isNote,
         }).then(() => {
           queryClient.invalidateQueries(['tasks'])
         })
@@ -60,7 +64,7 @@ export default function EditPanel() {
 
       return () => clearTimeout(timer)
     }
-  }, [title, notes, dueDate, noDate, mode, taskId, queryClient])
+  }, [title, notes, dueDate, noDate, isNote, mode, taskId, queryClient])
 
   const createMutation = useMutation({
     mutationFn: tasksAPI.create,
@@ -100,6 +104,7 @@ export default function EditPanel() {
           notes,
           due_date: noDate ? null : dueDate?.toISOString().split('T')[0],
           completed: false,
+          is_note: isNote,
         })
       }
     } else {
@@ -181,6 +186,8 @@ export default function EditPanel() {
                 onSelect={setDueDate}
                 noDate={noDate}
                 onNoDateChange={setNoDate}
+                isNote={isNote}
+                onIsNoteChange={setIsNote}
               />
 
               {/* File Attachments (only for existing tasks) */}
