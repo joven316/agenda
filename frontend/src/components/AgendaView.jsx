@@ -97,8 +97,8 @@ function TaskRow({ task, index, onToggleComplete, onEdit, onRemove, onMoveToTop 
   )
 }
 
-export default function AgendaView() {
-  const { tasks, isLoading, updateTask, deleteTask, reorderTasks } = useTasks('agenda')
+export default function AgendaView({ view = 'agenda' }) {
+  const { tasks, isLoading, updateTask, deleteTask, reorderTasks } = useTasks(view)
   const { openEditPanel } = useAppContext()
 
   const sensors = useSensors(
