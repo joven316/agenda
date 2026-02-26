@@ -74,6 +74,14 @@ export default function ListView() {
               </span>
             )}
 
+            <span className={`text-xs px-2 py-0.5 rounded-full ${
+              task.is_note
+                ? 'bg-accent/20 text-accent'
+                : 'bg-gray-700 text-gray-400'
+            }`}>
+              {task.is_note ? 'Note' : 'Agenda'}
+            </span>
+
             {!task.completed && (
               <button
                 onClick={(e) => { e.stopPropagation(); handleEdit(task) }}
