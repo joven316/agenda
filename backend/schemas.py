@@ -30,6 +30,7 @@ class TaskBase(BaseModel):
     notes: Optional[str] = None
     due_date: Optional[date] = None
     completed: bool = False
+    is_note: bool = False
 
 
 class TaskCreate(TaskBase):
@@ -41,6 +42,7 @@ class TaskUpdate(BaseModel):
     notes: Optional[str] = None
     due_date: Optional[date] = None
     completed: Optional[bool] = None
+    is_note: Optional[bool] = None
 
 
 class Task(TaskBase):
