@@ -116,7 +116,7 @@ export default function AgendaView({ view = 'agenda' }) {
   const handleDragEnd = (event) => {
     const { active, over } = event
 
-    if (active.id !== over.id) {
+    if (over && active.id !== over.id) {
       const oldIndex = activeTasks.findIndex((t) => t.id === active.id)
       const newIndex = activeTasks.findIndex((t) => t.id === over.id)
 
