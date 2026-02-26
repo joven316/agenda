@@ -22,7 +22,7 @@ function AppContent() {
 
   return (
     <div className="min-h-screen p-8 max-w-6xl mx-auto">
-      <h1 className="font-serif text-5xl mb-8">Agenda</h1>
+      <h1 className="font-serif text-5xl mb-8 capitalize">{currentView}</h1>
       <NavTabs />
 
       {currentView === 'agenda' && <AgendaView />}
