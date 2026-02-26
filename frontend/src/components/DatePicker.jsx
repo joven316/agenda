@@ -4,7 +4,7 @@ import 'react-day-picker/dist/style.css'
 import { format } from 'date-fns'
 import { Calendar as CalendarIcon } from 'lucide-react'
 
-export default function DatePicker({ selected, onSelect, noDate, onNoDateChange }) {
+export default function DatePicker({ selected, onSelect, noDate, onNoDateChange, isNote, onIsNoteChange }) {
   const [isOpen, setIsOpen] = React.useState(false)
 
   const handleDateSelect = (date) => {
@@ -53,6 +53,18 @@ export default function DatePicker({ selected, onSelect, noDate, onNoDateChange 
           />
           <span>No Date</span>
         </label>
+
+        {onIsNoteChange && (
+          <label className="flex items-center gap-2 text-sm cursor-pointer">
+            <input
+              type="checkbox"
+              checked={!!isNote}
+              onChange={(e) => onIsNoteChange(e.target.checked)}
+              className="w-4 h-4 accent-accent"
+            />
+            <span>Note</span>
+          </label>
+        )}
       </div>
 
       {isOpen && !noDate && (
