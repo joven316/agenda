@@ -16,16 +16,18 @@ export function AppProvider({ children }) {
   const [editPanelState, setEditPanelState] = useState({
     isOpen: false,
     taskId: null,
-    mode: 'new', // 'new' | 'edit'
-    defaultDate: null, // Pre-selected date for new tasks
+    mode: 'new',
+    defaultDate: null,
+    defaultIsNote: false,
   })
 
-  const openEditPanel = (taskId = null, defaultDate = null) => {
+  const openEditPanel = (taskId = null, defaultDate = null, defaultIsNote = false) => {
     setEditPanelState({
       isOpen: true,
       taskId,
       mode: taskId ? 'edit' : 'new',
       defaultDate,
+      defaultIsNote,
     })
   }
 
@@ -35,6 +37,7 @@ export function AppProvider({ children }) {
       taskId: null,
       mode: 'new',
       defaultDate: null,
+      defaultIsNote: false,
     })
   }
 
