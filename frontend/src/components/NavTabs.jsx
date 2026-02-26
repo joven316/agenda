@@ -6,6 +6,7 @@ const tabs = [
   { id: 'agenda', label: 'Agenda' },
   { id: 'calendar', label: 'Calendar' },
   { id: 'list', label: 'List' },
+  { id: 'notes', label: 'Notes' },
 ]
 
 export default function NavTabs() {
@@ -34,9 +35,13 @@ export default function NavTabs() {
         ))}
       </div>
 
-      {(currentView === 'agenda' || currentView === 'list') && (
+      {(currentView === 'agenda' || currentView === 'list' || currentView === 'notes') && (
         <button
-          onClick={() => openEditPanel(null, currentView === 'list' ? new Date() : null)}
+          onClick={() => openEditPanel(
+            null,
+            currentView === 'list' ? new Date() : null,
+            currentView === 'notes'
+          )}
           className="btn-primary ml-auto mb-2"
         >
           + add row
