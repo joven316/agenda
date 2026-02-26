@@ -35,6 +35,7 @@ def get_tasks(
         week_end = get_week_end(week_start)
 
         query = query.filter(
+            models.Task.is_note == False,
             or_(
                 models.Task.due_date.is_(None),
                 and_(
@@ -44,6 +45,26 @@ def get_tasks(
             )
         )
         # Sort: active tasks by sort_order, completed at bottom
+        query = query.order_by(
+            models.Task.completed.asc(),
+            models.Task.sort_order.asc()
+        )
+
+    elif view == "notes":
+        today = filter_date or date.today()
+        week_start = get_week_start(today)
+        week_end = get_week_end(week_start)
+
+        query = query.filter(
+            models.Task.is_note == True,
+            or_(
+                models.Task.due_date.is_(None),
+                and_(
+                    models.Task.due_date >= week_start,
+                    models.Task.due_date <= week_end
+                )
+            )
+        )
         query = query.order_by(
             models.Task.completed.asc(),
             models.Task.sort_order.asc()

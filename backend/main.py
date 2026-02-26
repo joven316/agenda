@@ -36,7 +36,7 @@ async def startup_event():
 # Task Endpoints
 @app.get("/api/tasks", response_model=List[schemas.Task])
 def read_tasks(
-    view: str = Query("agenda", regex="^(agenda|list|calendar)$"),
+    view: str = Query("agenda", regex="^(agenda|list|calendar|notes)$"),
     date_filter: Optional[date] = None,
     db: Session = Depends(get_db)
 ):
